@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import { useTaskStore } from '../store/taskStore'
+import { useTaskStore } from '../../store/taskStore'
 import { mapState, mapActions } from 'pinia'
 
 export default {

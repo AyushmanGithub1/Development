@@ -14,7 +14,7 @@
   </template>
   
   <script setup>
-  import TaskCard from '../components/TaskCard.vue';
+  import TaskCard from '../components/pinea/TaskCard.vue';
   import { ref } from 'vue';
   import { useTaskStore } from '../store/taskStore';
   
