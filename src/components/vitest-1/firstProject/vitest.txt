@@ -1,0 +1,175 @@
+Here is your **Vitest Interview Cheatsheet** → clean and ready to copy to Notepad 📋:
+
+---
+
+# 🚀 Vitest Cheatsheet for Interviews
+
+---
+
+### ✅ 1️⃣ Basic test
+
+```js
+import { describe, test, expect } from 'vitest';
+
+describe('Math utils', () => {
+  test('adds numbers', () => {
+    expect(2 + 3).toBe(5);
+  });
+});
+```
+
+---
+
+### ✅ 2️⃣ Testing JS utils (example)
+
+```js
+import { isAdult } from './user-utils.js';
+
+test('isAdult works', () => {
+  expect(isAdult(20)).toBeTruthy();
+});
+```
+
+---
+
+### ✅ 3️⃣ Mocking functions
+
+```js
+import { vi, test, expect } from 'vitest';
+
+test('mock function basics', () => {
+  const mockFn = vi.fn();
+
+  mockFn('Hello');
+  mockFn('World');
+
+  expect(mockFn).toHaveBeenCalled();
+  expect(mockFn).toHaveBeenCalledWith('World');
+  expect(mockFn).toHaveBeenCalledTimes(2);
+});
+```
+
+---
+
+### ✅ 4️⃣ Mocking async API call
+
+```js
+import { fetchUser } from './user-service';
+import { vi, test, expect } from 'vitest';
+
+vi.mock('./user-service', () => ({
+  fetchUser: vi.fn().mockResolvedValue({ name: 'Mocked User' }),
+}));
+
+test('mocking async API', async () => {
+  const user = await fetchUser();
+  expect(user.name).toBe('Mocked User');
+});
+```
+
+---
+
+### ✅ 5️⃣ Spying on functions
+
+```js
+import * as mathUtils from './math-utils';
+import { vi, test, expect } from 'vitest';
+
+test('spy on multiply', () => {
+  const spy = vi.spyOn(mathUtils, 'multiply').mockReturnValue(10);
+
+  expect(mathUtils.multiply(2, 3)).toBe(10);
+  expect(spy).toHaveBeenCalledWith(2, 3);
+
+  spy.mockRestore();
+});
+```
+
+---
+
+### ✅ 6️⃣ Vue component testing
+
+```js
+import { mount } from '@vue/test-utils';
+import { describe, test, expect } from 'vitest';
+import HelloWorld from './HelloWorld.vue';
+
+describe('HelloWorld component', () => {
+  test('renders with name', () => {
+    const wrapper = mount(HelloWorld, {
+      props: { name: 'Ayushman' },
+    });
+    expect(wrapper.text()).toContain('Hello Ayushman');
+  });
+
+  test('increments count', async () => {
+    const wrapper = mount(HelloWorld, { props: { name: 'Ayushman' } });
+    const button = wrapper.find('button');
+    await button.trigger('click');
+    await button.trigger('click');
+    expect(button.text()).toContain('Clicked 2 times');
+  });
+});
+```
+
+---
+
+### ✅ 7️⃣ Pinia store testing
+
+```js
+import { setActivePinia, createPinia } from 'pinia';
+import { useCounterStore } from './counterStore';
+import { describe, test, expect, beforeEach } from 'vitest';
+
+describe('Counter Store', () => {
+  beforeEach(() => {
+    setActivePinia(createPinia());
+  });
+
+  test('initial state', () => {
+    const counterStore = useCounterStore();
+    expect(counterStore.count).toBe(0);
+  });
+
+  test('increment', () => {
+    const counterStore = useCounterStore();
+    counterStore.increment();
+    expect(counterStore.count).toBe(1);
+  });
+
+  test('getter doubleCount', () => {
+    const counterStore = useCounterStore();
+    counterStore.count = 3;
+    expect(counterStore.doubleCount).toBe(6);
+  });
+});
+```
+
+---
+
+### ✅ 8️⃣ Vitest config (vite.config.js)
+
+```js
+import { defineConfig } from 'vitest/config';
+import vue from '@vitejs/plugin-vue';
+
+export default defineConfig({
+  plugins: [vue()],
+  test: {
+    environment: 'jsdom',
+    globals: true,
+  },
+});
+```
+
+---
+
+# Summary:
+
+| Concept             | Commands / APIs                    |
+| ------------------- | ---------------------------------- |
+| Basic test          | `test()`, `expect()`, `describe()` |
+| Mock functions      | `vi.fn()`, `vi.mock()`             |
+| Spy functions       | `vi.spyOn()`                       |
+| Component testing   | `@vue/test-utils` → `mount()`      |
+| Pinia store testing | `setActivePinia(createPinia())`    |

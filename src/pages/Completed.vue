@@ -8,7 +8,7 @@
   </template>
   
   <script setup>
-  import TaskCard from '../components/TaskCard.vue';
+  import TaskCard from '../components/pinea/TaskCard.vue';
   import { useTaskStore } from '../store/taskStore';
   
   const store = useTaskStore();
